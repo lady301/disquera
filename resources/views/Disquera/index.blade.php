@@ -23,6 +23,7 @@
 <table class="table table-hover table-responsive">
   <thead>
     <tr>
+      <th scope="col">imagen</th>
       <th scope="col">Id</th>
       <th scope="col">Nombre</th>
       <th scope="col">Apellidos</th>
@@ -37,6 +38,7 @@
   <tbody>
   @foreach($users as $u)
     <tr>
+      <td><img src="{{asset('storage').'/'.$u->Foto}}" width="80px" class="rounded-circle border border-light rounded-3"></td>
       <th scope="row">{{$u->id}}</th>
       <td>{{$u->Nombre}}</td>
       <td>{{$u->Apellidos}}</td>

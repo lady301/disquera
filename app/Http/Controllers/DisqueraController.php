@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artista;
 use App\Users;
 use App\Models\Disquera;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DisqueraController extends Controller
 {
@@ -39,6 +41,11 @@ class DisqueraController extends Controller
     public function store(Request $request)
     {
         $datosDisquera=request()->except('_token');
+
+        if ($request->hasfile('foto'))
+        {
+          $datosDisquera['foto']=$request->file('foto')->store('uploads','public');
+        }
         users::insert($datosDisquera);
         //return response()->json($datosDisquera);
         return redirect('Disquera')->with('msn','artista registrado exitosamente');
@@ -77,6 +84,13 @@ class DisqueraController extends Controller
     public function update(Request $request,$id)
     {
         $datosDisquera=request()->except('_token','_method');
+
+        if($request->hasFile('foto')){
+        $users=users::findOrFail($id);
+        Storage::delete('public/'.$users->foto);
+        $datosDisquera['foto']=$request->file('foto')->store('uploads','public');
+
+        }
         users::where('id','=',$id)->update($datosDisquera);
         return redirect('Disquera')->with('msn','artista actualizado exitosamente');
     }
@@ -89,7 +103,12 @@ class DisqueraController extends Controller
      */
     public function destroy($id)
     {
-        users::destroy($id);
+
+      $artista=artista::findOrFail($id);
+          if (Storage::delete('public/'.$artista->foto)){
+            artista::destroy($id);
+          }
+
         return redirect('Disquera')->with('msn','artista eliminado exitosamente');
     }
 }

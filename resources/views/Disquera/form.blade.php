@@ -22,6 +22,13 @@
             {{isset($users->Email)?$users->Email:''}}">
          </div>
 
+         <div class="mb-3">
+            <label for="foto" class="form-label">Anexe la foto del Artista </label>
+            <input type="file" name="foto" id="foto" class="form-control"value="
+            {{isset($users->Foto)?$users->Foto:''}}">
+         </div>
+
+
          
          <div class="mb-3">
             <label for="Direccion" class="form-label">Ingrese la Dirección</label>

@@ -10,7 +10,7 @@
    <div class="card" style="width: 30rem; margin: 30px auto;">
 
       <div class="card-body">
-         <form action="{{url('/Disquera/'.$users->id)}}" method="post">
+         <form action="{{url('/Disquera/'.$users->id)}}" method="post" enctype="multipart/form-data" >
          @csrf
          {{method_field('PATCH')}}
          @include('Disquera.form')
