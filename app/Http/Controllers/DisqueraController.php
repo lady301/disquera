@@ -19,8 +19,9 @@ class DisqueraController extends Controller
      */
     public function index()
     {
-     $registro['users']=Users::paginate(10);
-     return view('Disquera.index', $registro);
+     $registro['users']=Users::withTrashed()->select('id','Nombre','Apellidos','Identificacion','Email','Direccion','Telefono','Foto','deleted_at' )->get();
+    //$registro['users']=Users::paginate(10);
+    return view('Disquera.index', $registro);
     }
 
     /**
@@ -133,11 +134,14 @@ class DisqueraController extends Controller
     public function destroy($id)
     {
 
-      $artista=users::findOrFail($id);
-          if (Storage::delete('public/'.$artista->foto)){
-            users::destroy($id);
-          }
-          users::destroy($id);
-        return redirect('Disquera')->with('msn','artista eliminado exitosamente');
+      $artista=users::find($id);
+      $artista->delete();
+        return redirect('Disquera')->with('msn','artista inactivado exitosamente');
     }
+
+public function active($id){
+     $disquera=users::withTrashed()->where('id',$id)->restore();
+     return redirect('Disquera')->with('msn','artista restaurado exitosamente ');
+}
+
 }

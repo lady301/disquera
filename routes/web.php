@@ -38,3 +38,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware'=>'auth'],function(){
     Route::get('/', [App\Http\Controllers\DisqueraController::class, 'index'])->name('Disquera');
 });
+
+Route::get('Disquera/{id}/active',[DisqueraController::class,'active'])->name('active');

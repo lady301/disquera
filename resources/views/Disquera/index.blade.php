@@ -51,12 +51,16 @@
          <a href="{{url('/Disquera/'.$u->id.'/edit')}}" class="btn btn-warning">Editar</a>
         </td>
           <td>
+          @if (!is_null($u->deleted_at))
+          <a href="{{url('/Disquera/'.$u->id.'/active')}}" class="btn btn-success">Activar</a>
+            @else
             <form action="{{url('/Disquera/'.$u->id)}}" method="post">
             @csrf
             {{method_field('DELETE')}}
-            <input type="submit" value="Eliminar"onclick="return confirm
-          ('Está seguro que desea eliminar el reguistro')" class="btn btn-danger">
+            <input type="submit" value="Inactivar"onclick="return confirm
+          ('Está seguro que desea Inactivar el reguistro')" class="btn btn-danger">
         </form>
+        @endif
            </td>
           <td>
            
