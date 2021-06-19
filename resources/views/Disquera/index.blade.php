@@ -37,6 +37,7 @@
 
   <tbody>
   @foreach($users as $u)
+  @if (!is_null($u->Direccion))
     <tr>
       <td><img src="{{asset('storage').'/'.$u->Foto}}" width="80px" class="rounded-circle border border-light rounded-3"></td>
       <th scope="row">{{$u->id}}</th>
@@ -61,6 +62,7 @@
            
       </td>
      </tr>
+     @endif
       @endforeach
   </tbody>
 </table>

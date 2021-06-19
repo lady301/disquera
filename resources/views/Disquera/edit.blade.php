@@ -10,7 +10,8 @@
    <div class="card" style="width: 30rem; margin: 30px auto;">
 
       <div class="card-body">
-         <form action="{{url('/Disquera/'.$users->id)}}" method="post" enctype="multipart/form-data" >
+         <form action="{{url('/Disquera/'.$users->id)}}" method="post" enctype="multipart/form-data" 
+         novalidate class="needs-validation">
          @csrf
          {{method_field('PATCH')}}
          @include('Disquera.form')

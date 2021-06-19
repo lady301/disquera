@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class DisqueraController extends Controller
 {
+
+    
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +20,7 @@ class DisqueraController extends Controller
     public function index()
     {
      $registro['users']=Users::paginate(10);
-    return view('Disquera.index', $registro);
+     return view('Disquera.index', $registro);
     }
 
     /**
@@ -40,6 +42,17 @@ class DisqueraController extends Controller
      */
     public function store(Request $request)
     {
+        $campos=[
+            'identificacion'=>'required|numeric|min:2',
+            'Nombre'=>'required|string|max:50',
+            'Apellidos'=>'required|string|max:50',
+            'Email'=>'required|Email|max:100',
+            'foto'=>'required|mimes:jpg,jpeg,png|max:500',
+            'Direccion'=>'required|string|max:100',
+            'Telefono'=>'required|numeric|min:3'
+        ];
+        $this->validate($request,$campos);
+
         $datosDisquera=request()->except('_token');
 
         if ($request->hasfile('foto'))
@@ -83,6 +96,22 @@ class DisqueraController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $campos=[
+            'identificacion'=>'required|numeric|min:5',
+            'Nombre'=>'required|string|max:50',
+            'Apellidos'=>'required|string|max:50',
+            'Email'=>'required|Email|max:100',
+            'Direccion'=>'required|string|max:100',
+            'Telefono'=>'required|numeric|min:3'
+        ];
+        $this->validate($request,$campos);
+        if($request->hasFile('foto')){
+            $campos=[
+                'foto'=>'required|mimes:jpg,jpeg,png|max:500'
+            ];
+        }
+
+
         $datosDisquera=request()->except('_token','_method');
 
         if($request->hasFile('foto')){
@@ -104,11 +133,11 @@ class DisqueraController extends Controller
     public function destroy($id)
     {
 
-      $artista=artista::findOrFail($id);
+      $artista=users::findOrFail($id);
           if (Storage::delete('public/'.$artista->foto)){
-            artista::destroy($id);
+            users::destroy($id);
           }
-
+          users::destroy($id);
         return redirect('Disquera')->with('msn','artista eliminado exitosamente');
     }
 }

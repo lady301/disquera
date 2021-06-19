@@ -16,9 +16,8 @@ use App\http\Controllers\DisqueraController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-
 /*Route::get('/Disquera', function () {
     return view('Disquera.index');
 });*/
@@ -26,11 +25,16 @@ Route::get('/', function () {
 
 //Route::get('/Disquera/create', [DisqueraController::class,'create']);
 
-Route::resource('Disquera',DisqueraController::class);
+Route::resource('Disquera',DisqueraController::class)->middleware('auth');
+//Route::resource('Disquera',DisqueraController::class);
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('Disquera');
+
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/', [App\Http\Controllers\DisqueraController::class, 'index'])->name('Disquera');
+});
